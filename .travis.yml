@@ -6,4 +6,14 @@ before_install:
   - docker build -t viveknum/docker-react -f Dockerfile.dev .
   
 script:
-  - docker run   viveknum/docker-react CI=true npm run test --watchAll=false
+  - docker run  -e CI=true viveknum/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-2" 
+  name: "docker-react"
+  env: "docker-react-env"
+  bucket_name: "elasticbeanstalk-us-west-2-hfhfhfh"
+  bucket_path: "docker-react"
+  on:
+    branch: main
